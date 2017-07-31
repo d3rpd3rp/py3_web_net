@@ -1,6 +1,6 @@
 #Tested with Python 3.6.1 on macOS
 
-import requests
+import requests, random
 from time import sleep
 
 #used https://stackoverflow.com/questions/16694907/how-to-download-large-file-in-python-with-requests-py
@@ -18,6 +18,10 @@ size_of_file_loop = 10
 sleep_time = 60
 n=0
 
+#seed pseudo-random number generator
+#no argument to seed uses system time as default
+random.seed()
+
 #infinite loop, only writing ten total files and rewriting them as same name after 10 files
 while True:
     local_filename = url.split('/')[-1]
@@ -25,3 +29,8 @@ while True:
     download_file(url, local_filename)
     n += 1
     sleep(sleep_time)
+    #modify sleep time
+    sleep_time = sleep_time + random.randint(1, 60)
+    #don't sleep too much, if over thirty minutes
+    if sleep_time > 1800:
+        sleep_time = 60
